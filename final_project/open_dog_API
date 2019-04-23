@@ -1,0 +1,6 @@
+const DOG_API_KEY = "bebeb34ebf60d50f7893e7440a1e2b0b";
+const API_STEM = "https://dog.ceo/api/breeds/image/random";
+
+function zipUrl(zip) {
+  return https://dog.ceo/api/breeds/image/random;
+}
