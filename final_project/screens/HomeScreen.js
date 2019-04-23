@@ -26,9 +26,9 @@ export default class HomeScreen extends React.Component {
       <View style={styles.container}>
         <ScrollView style={styles.container} contentContainerStyle={styles.contentContainer}>
           <View style={styles.getStartedContainer}>
-            <Text style={styles.getStartedText}>Cats are amazing</Text>
+            <Text style={styles.getStartedText}>Dogs are BETTER</Text>
             <FlatList
-             data={[{key: 'cat1',image: require('../assets/images/cat1.png')}, {key: 'cat2',image: require('../assets/images/cat2.png')}]}
+             data={[{key: 'dog1',image: require('../assets/images/dog1.png')}, {key: 'dog2',image: require('../assets/images/dog2.png')}]}
              keyExtractor={this._keyExtractor}
               renderItem={({item}) => <TouchableOpacity onPress={(event) => { console.log(item.key) }}>
                 <Image source={item.image} style={{width:200,height:200}} />
