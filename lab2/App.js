@@ -1,51 +1,72 @@
 import React from 'react';
-import { StyleSheet, TouchableOpacity, Text, View, TextInput, Button } from 'react-native';
+import { StyleSheet, Text, View, TextInput, Button, TouchableOpacity } from 'react-native';
 
 export default class App extends React.Component {
+
   constructor(props) {
     super(props);
-    this.state = {state: '', state_Name: '', state_Error: ''};
-    this.onPress = this.onPress.bind(this);
+    this.state = {name: null, valid: false, submit: false};
+
     this.onChange = this.onChange.bind(this);
+    this.onPress = this.onPress.bind(this);
   }
+
   onChange(event) {
-    testy = event;
+    this.setState({name: event});
+    var regex = /^[a-zA-Z]+$/;
+      if (regex.test(this.state.name)) {
+        this.setState({valid: true});
+      } else {
+        this.setState({valid: false});
+      }
   }
 
+  onPress(event) {
+    this.setState({submit: true});
 
-  validate() {
-    let state_Name = '';
-    let state_Error = '';
+    console.log(this.state.name);
+    console.log(this.state.valid);
 
-    if (!testy.match(/^[a-zA-Z\s]+$/)) {
-        state_Error='Bad User. Invalid Name CHOSEN';
-    }
-    else if (testy.match(/^[a-zA-Z\s]+$/)){
-        state_Name="Hi User! your name is " + testy;
-    }
-    if (state_Error) {
-        this.setState({state_Error});
-        return false;
-    }
-    else if (state_Name) {
-        this.setState({state_Name});
-        return false;
-    }
-    return true;
+    event.preventDefault();
   }
 
-  onPress() {
-    console.log("Pressed");
-  }
-  render() {
-    return (
-      <View style={styles.container} flexDirection="column" alignItems='stretch'>
-        <View><TextInput style={styles.textInput} onChangeText={this.onChange} placeholder="Enter your name"></TextInput></View>
-        <TouchableOpacity style={styles.buttonStyle} onPress={this.onPress}><Text style={styles.buttonText}>Submit</Text></TouchableOpacity>
-      </View>
-    );
-  }
-}
+   render() {
+     const isValid = this.state.valid;
+     const submit = this.state.submit;
+     let message;
+     let form;
+
+     if (submit) {
+       form =<Text style={styles.buttonText}> </Text>;
+     } else {
+       form = (
+         <View>
+          <TextInput style={styles.textInput} placeholder="Enter Your Name" onChangeText={value => this.onChange(value)} value={this.state.name}></TextInput>
+          <TouchableOpacity style={styles.buttonStyle} onPress={this.onPress}><Text style={styles.buttonText}>Submit</Text></TouchableOpacity>
+        </View>
+       );
+     }
+
+     if (submit) {
+       form = <Text></Text>;
+     }
+
+     if (submit && isValid) {
+       message =<Text style={styles.defaultText}>Congratulations. You are beautiful and valid, </Text>;
+     } else if (isValid && !submit) {
+       message =<Text style={styles.defaultText}>Looking good, </Text>;
+     } else if (!isValid && submit) {
+       message =<Text style={styles.invalidText}>I'm sorry. You are invalid. Only letters please! No numbers. You entered:</Text>;
+     } else {
+       message =<Text style={styles.defaultText}>Only letters please! </Text>;
+     }
+
+     return (
+       <View style={styles.container} flexDirection='column' alignItems='stretch'>{form}{message}<Text style={styles.defaultText}>{this.state.name}</Text></View>
+     );
+   }
+ };
+
 
 const styles = StyleSheet.create({
   buttonText:
@@ -70,6 +91,11 @@ const styles = StyleSheet.create({
   defaultText:
   {
     fontSize:20
+  },
+  invalidText:
+  {
+    fontSize:20,
+    color: 'red',
   },
   container: {
     flex: 1,
