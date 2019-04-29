@@ -10,6 +10,7 @@ import Button from "./Button";
 import * as Expo from "expo";
 import Forecast from "./Forecast";
 import LocationButton from "./LocationButton";
+import Clock from "./Clock";
 import textStyles from "./styles/typography.js";
 
 const STORAGE_KEY = "@SmarterWeather:zip";
@@ -26,9 +27,10 @@ class WeatherProject extends Component {
   constructor(props) {
     super(props);
     this.state = { forecast: null };
+    //this.onPress = this.onPress.bind(this)
   }
 
-    
+
   checkMultiPermissions = async() => {
     const { Permissions, FileSystem } = Expo;
     console.log(FileSystem.documentDirectory);
@@ -63,8 +65,8 @@ class WeatherProject extends Component {
             }
           }
       }
-      
-  }      
+
+  }
   _retrieveData = async () => {
       console.log("Retrieving Data");
         try {
@@ -121,6 +123,31 @@ class WeatherProject extends Component {
     this._getForecastForZip(zip);
   };
 
+/*  componentWillMount() {
+    alert('hello');
+    navigator.geolocation.getCurrentPosition(
+      initialPosition => {
+        this.onGetCoords(
+          initialPosition.coords.latitude,
+          initialPosition.coords.longitude
+        );
+      },
+      error => {
+        alert(error.message);
+      },
+      { enableHighAccuracy: true, timeout: 20000, maximumAge: 1000 }
+    );
+    let lat = initialPosition.coords.latitude;
+    let lon = initialPosition.coords.latitude;
+
+    _getForecastForCoords = (lat, lon) => {
+      OpenWeatherMap.fetchLatLonForecast(lat, lon)
+        .then(forecast => {
+          this.setState({ forecast: forecast });
+      });
+    };
+  }*/
+
   render() {
     let content = null;
     console.log("Rendered" + this.state.newPostImage);
@@ -151,6 +178,11 @@ class WeatherProject extends Component {
               />
             </View>
           </View>
+
+          <View style={styles.row}>
+            <Clock />
+          </View>
+
 
           <View style={styles.row}>
             <LocationButton onGetCoords={this._getForecastForCoords} />
